@@ -9,16 +9,29 @@ import org.springframework.stereotype.Component;
 @Component
 public class VaccineFormatter implements Formatter<Vaccine>{
 
+    
+    private final VaccinationService vService;
+
+    
+    public VaccineFormatter(VaccinationService vService) {
+        this.vService = vService;
+    }
+
+
     @Override
     public String print(Vaccine object, Locale locale) {
-        // TODO Auto-generated method stub
-        return null;
+        return object.getName();
     }
 
     @Override
     public Vaccine parse(String text, Locale locale) throws ParseException {
-        // TODO Auto-generated method stub
-        return null;
+        Vaccine p = vService.getVaccine(text);
+
+		if(p == null){
+            throw new ParseException("type not found: " + text, 0);
+		}else{
+            return p;
+        }
     }
     
 }
